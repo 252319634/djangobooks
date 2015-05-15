@@ -1,1 +1,0 @@
-bu neng shi yong zhong wen .

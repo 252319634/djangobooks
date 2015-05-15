@@ -8,8 +8,8 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'djangoBook.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
-
     url(r'^admin/', include(admin.site.urls)),
+    # url(r'^admin/', include(admin.site.urls)),
     url(r'^latest/$', views.latest_books),
     url(r'^time/$', views.current_datetime),
     url(r'^hello/$', views.hello),
