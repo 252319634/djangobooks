@@ -1,0 +1,26 @@
+<html>
+<head>
+    <title>Search</title>
+</head>
+<body>
+<form action="" method="get">
+    <input type="text" name="q">
+    <input type="submit" value="Search">
+</form>
+{% if errors %}
+    <p style="color: #ff0000;">{{ errors.pop }}</p>
+{% else %}
+    <p>You searched for: <strong>{{ query }}</strong></p>
+    {% if books %}
+        <p>Found {{ books|length }} book{{ books|pluralize }}.</p>
+        <ul>
+            {% for book in books %}
+                <li>{{ book.title }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No books matched your search criteria.</p>
+    {% endif %}
+{% endif %}
+</body>
+</html>
