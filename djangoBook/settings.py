@@ -38,6 +38,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'books',
+    'contact',
+    'testviews',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -88,4 +90,6 @@ STATIC_URL = '/static/'
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
+    # os.path.join(BASE_DIR, 'contact/templates'),
+    # os.path.join(BASE_DIR, 'testviews/templates'),
 )

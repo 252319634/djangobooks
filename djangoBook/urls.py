@@ -3,7 +3,7 @@ from django.contrib import admin
 # from django.conf.urls.defaults import *
 from books import views
 import contact
-
+import testviews
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'djangoBook.views.home', name='home'),
@@ -19,5 +19,6 @@ urlpatterns = patterns('',
     url(r'^meta/$', views.display_meta),
     url(r'^search/$', views.search),
     url(r'^contact/$', contact.views.contact),
+    url(r'^testviews/(\d)$', testviews.views.view),
 )
 
