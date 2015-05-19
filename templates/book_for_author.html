@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+book_for_author
+<ul>
+    {% for book in books %}
+        <li>book.title:{{ book.title }}</li>
+        <li>book.author:{{ author.first_name }} {{ author.last_name }}</li>
+    {% endfor %}
+</ul>
+</body>
+</html>
