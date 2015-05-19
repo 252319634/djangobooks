@@ -1,25 +1,49 @@
 # -*- coding: utf-8 -*-
 from django.core.mail import send_mail
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
+from contact.forms import ContactForm
+
+# def contact(request):
+# errors = []
+# if request.method == 'POST':
+#         if not request.POST.get('subject', ''):
+#             errors.append('Enter a subject.')
+#         if not request.POST.get('message', ''):
+#             errors.append('Enter a message.')
+#         if request.POST.get('email') and '@' not in request.POST['email']:
+#             errors.append('Enter a valid e-mail address.')
+#         if not errors:
+#             send_mail(
+#                 request.POST['subject'],
+#                 request.POST['message']+' email:'+request.POST.get('email','None'),
+#                 '15340919908@163.com',
+#                 ['252319634@qq.com','15340919908@163.com']
+#             )
+#             return HttpResponseRedirect('/contact/thanks/')
+#     return render_to_response('contact_form.html',
+#             {'errors': errors,
+#             'subject': request.POST.get('subject', ''),
+#             'message': request.POST.get('message', ''),
+#             'email': request.POST.get('email', ''), })
 
 
 def contact(request):
-    errors = []
     if request.method == 'POST':
-        if not request.POST.get('subject', ''):
-            errors.append('Enter a subject.')
-        if not request.POST.get('message', ''):
-            errors.append('Enter a message.')
-        if request.POST.get('email') and '@' not in request.POST['email']:
-            errors.append('Enter a valid e-mail address.')
-        if not errors:
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
             send_mail(
-                request.POST['subject'],
-                request.POST['message'],
-                request.POST.get('email', 'noreply@example.com'),
-                ['siteowner@example.com'],
+                cd['subject'],
+                cd['message'],
+                '15340919908@163.com',
+                ['252319634@qq.com'],
             )
             return HttpResponseRedirect('/contact/thanks/')
-    return render_to_response('contact_form.html',
-                              {'errors': errors})
+    else:
+        form = ContactForm(initial={'subject': 'I love your site!'})
+    return render_to_response('contact_form.html', {'form': form, })
+
+
+def thanks(request):
+    return render_to_response('thanks.html')

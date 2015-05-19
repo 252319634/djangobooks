@@ -37,7 +37,7 @@ def hours_ahead(request, offset):
 
 
 def latest_books(request):
-    book_list = Book.objects.order_by('-pub_date')[:10]
+    book_list = Book.objects.order_by('-publication_date')[:10]
     return render_to_response('latest_books.html', {'book_list': book_list})
 
 
