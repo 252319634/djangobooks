@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^testtags/', include(testtags.urls)),
 
+
 )
 urlpatterns += patterns('books.views',
 
@@ -22,6 +23,7 @@ urlpatterns += patterns('books.views',
                         url(r'^mypage/$', 'current_section'),
                         url(r'^meta/$', 'display_meta'),
                         url(r'^search/$', 'search'),
+                        url(r'^showbook/$', 'showbook'),
                         )
 urlpatterns += patterns('contact.views',
 

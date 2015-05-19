@@ -1,3 +1,4 @@
+# coding: utf8
 from django.core.mail import send_mail
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render
@@ -9,6 +10,11 @@ import datetime
 
 # def search_form(request):
 # return render_to_response('search_form.html')
+
+
+def showbook(request):
+    return render_to_response('result_snippet.html', {'title': 'title123', 'author': '麦'})
+
 
 def search(request):
     errors = []
@@ -44,9 +50,9 @@ def latest_books(request):
 # def current_datetime(request):
 # now = datetime.datetime.now()
 # html = "<html><body>It is now %s.</body></html>" % now
-#     return HttpResponse(html)
+# return HttpResponse(html)
 # def current_datetime(request):
-#     now = datetime.datetime.now()
+# now = datetime.datetime.now()
 #     t = get_template('current_datetime.html')
 #     html = t.render(Context({'current_date': now}))
 #     return HttpResponse(html)

@@ -1,12 +1,29 @@
 # -*- coding: utf-8 -*-
 
 from django import template
-
+from books.models import Book
+import datetime
+import re
 register = template.Library()
 
-import datetime
 
-import re
+class CurrentTimeNode(template.Node):
+    def __init__(self, format_string):
+        self.format_string = str(format_string)
+
+    def render(self, context):
+        now = datetime.datetime.now()
+        return now.strftime(self.format_string)
+
+
+class CurrentTimeNode2(template.Node):
+    def __init__(self, format_string):
+        self.format_string = str(format_string)
+
+    def render(self, context):
+        now = datetime.datetime.now()
+        context['current_time'] = now.strftime(self.format_string)
+        return ''
 
 
 class CurrentTimeNode3(template.Node):
@@ -20,14 +37,26 @@ class CurrentTimeNode3(template.Node):
         return ''
 
 
-def current_time4(format_string):
+@register.tag('current_time')
+def do_current_time(parser, token):
     try:
-        return datetime.datetime.now().strftime(str(format_string))
-    except UnicodeEncodeError:
-        return ''
+        # split_contents() knows not to split quoted strings.
+        tag_name, format_string = token.split_contents()
+    except ValueError:
+        msg = '%r tag requires a single argument' % token.split_contents()[0]
+        raise template.TemplateSyntaxError(msg)
+    return CurrentTimeNode(format_string[1:-1])
 
 
-register.simple_tag(current_time4)
+@register.tag('current_time2')
+def do_current_time2(parser, token):
+    try:
+        # split_contents() knows not to split quoted strings.
+        tag_name, format_string = token.split_contents()
+    except ValueError:
+        msg = '%r tag requires a single argument' % token.split_contents()[0]
+        raise template.TemplateSyntaxError(msg)
+    return CurrentTimeNode2(format_string[1:-1])
 
 
 @register.tag('current_time3')
@@ -54,47 +83,14 @@ def do_current_time3(parser, token):
     return CurrentTimeNode3(fmt[1:-1], var_name)
 
 
-class CurrentTimeNode(template.Node):
-    def __init__(self, format_string):
-        self.format_string = str(format_string)
-
-    def render(self, context):
-        now = datetime.datetime.now()
-        return now.strftime(self.format_string)
-
-
-class CurrentTimeNode2(template.Node):
-    def __init__(self, format_string):
-        self.format_string = str(format_string)
-
-    def render(self, context):
-        now = datetime.datetime.now()
-        context['current_time'] = now.strftime(self.format_string)
+@register.simple_tag()  # 装饰器参数 形式 name=''.或者不要参数
+def current_time4(format_string):
+    try:
+        return datetime.datetime.now().strftime(str(format_string))
+    except UnicodeEncodeError:
         return ''
 
 
 @register.filter()
 def cut_blank(value):
     return value.replace(' ', '')
-
-
-@register.tag('current_time')
-def do_current_time(parser, token):
-    try:
-        # split_contents() knows not to split quoted strings.
-        tag_name, format_string = token.split_contents()
-    except ValueError:
-        msg = '%r tag requires a single argument' % token.split_contents()[0]
-        raise template.TemplateSyntaxError(msg)
-    return CurrentTimeNode(format_string[1:-1])
-
-
-@register.tag('current_time2')
-def do_current_time2(parser, token):
-    try:
-        # split_contents() knows not to split quoted strings.
-        tag_name, format_string = token.split_contents()
-    except ValueError:
-        msg = '%r tag requires a single argument' % token.split_contents()[0]
-        raise template.TemplateSyntaxError(msg)
-    return CurrentTimeNode2(format_string[1:-1])

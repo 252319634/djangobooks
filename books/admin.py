@@ -3,12 +3,12 @@ from books.models import Publisher, Author, Book
 
 
 class AuthorAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'email')
+    list_display = ('id', 'first_name', 'last_name', 'email')
     search_fields = ('first_name', 'last_name')
 
 
 class BookAdmin(admin.ModelAdmin):
-    list_display = ('title', 'publisher', 'publication_date')
+    list_display = ('id', 'title', 'publisher', 'publication_date')
     list_filter = ('publication_date',)
     date_hierarchy = 'publication_date'
     ordering = ('-publication_date',)
@@ -18,7 +18,7 @@ class BookAdmin(admin.ModelAdmin):
 
 
 class PublisherAdmin(admin.ModelAdmin):
-    list_display = ('name', 'address', 'website')
+    list_display = ('id', 'name', 'address', 'website')
 
 
 admin.site.register(Publisher, PublisherAdmin)

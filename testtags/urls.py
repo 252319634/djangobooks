@@ -11,5 +11,6 @@ urlpatterns = patterns('',
                        # url(r'^admin/', include(admin.site.urls)),
 
                        url(r'^testtag/', views.testtag),
+                       url(r'^testinctag/', views.testinctag),
 
                        )
