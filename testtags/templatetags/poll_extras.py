@@ -6,6 +6,53 @@ register = template.Library()
 
 import datetime
 
+import re
+
+
+class CurrentTimeNode3(template.Node):
+    def __init__(self, format_string, var_name):
+        self.format_string = str(format_string)
+        self.var_name = var_name
+
+    def render(self, context):
+        now = datetime.datetime.now()
+        context[self.var_name] = now.strftime(self.format_string)
+        return ''
+
+
+def current_time4(format_string):
+    try:
+        return datetime.datetime.now().strftime(str(format_string))
+    except UnicodeEncodeError:
+        return ''
+
+
+register.simple_tag(current_time4)
+
+
+@register.tag('current_time3')
+def do_current_time3(parser, token):
+    # This version uses a regular expression to parse tag contents.
+    try:
+        # Splitting by None == splitting by spaces.
+        tag_name, arg = token.contents.split(None, 1)  # 按照 None 分割1次,按照None 分割就是 按照空格分割.
+    except ValueError:
+        msg = '%r tag requires arguments' % token.contents[0]
+        raise template.TemplateSyntaxError(msg)
+
+    m = re.search(r'(.*?) as (\w+)', arg)
+    if m:
+        fmt, var_name = m.groups()
+    else:
+        msg = '%r tag had invalid arguments' % tag_name
+        raise template.TemplateSyntaxError(msg)
+
+    if not (fmt[0] == fmt[-1] and fmt[0] in ('"', "'")):
+        msg = "%r tag's argument should be in quotes" % tag_name
+        raise template.TemplateSyntaxError(msg)
+
+    return CurrentTimeNode3(fmt[1:-1], var_name)
+
 
 class CurrentTimeNode(template.Node):
     def __init__(self, format_string):
