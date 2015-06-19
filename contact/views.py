@@ -36,7 +36,7 @@ def contact(request):
             send_mail(
                 cd['subject'],
                 cd['message'],
-                '15340919908@163.com',
+                '252319634@qq.com',
                 ['252319634@qq.com'],
             )
             return HttpResponseRedirect('/contact/thanks/')
