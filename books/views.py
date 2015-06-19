@@ -53,7 +53,7 @@ def latest_books(request):
 # return HttpResponse(html)
 # def current_datetime(request):
 # now = datetime.datetime.now()
-#     t = get_template('current_datetime.html')
+# t = get_template('current_datetime.html')
 #     html = t.render(Context({'current_date': now}))
 #     return HttpResponse(html)
 def current_datetime(request):
@@ -62,6 +62,7 @@ def current_datetime(request):
 
 
 def current_section(request):
+    a = request.REQUEST.get('a', '0')
     title = 'mypage'
     current_section = 'mypage->nav.html'
     try:
